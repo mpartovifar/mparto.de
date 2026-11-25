@@ -1,0 +1,53 @@
+{{- /* Hero background: a human hand shaking a jointed machine (AI) hand, drawn as points and lines
+       in the same style as the background network. Side view, in a 620 x 210 box:
+       - machine hand from the left: segmented forearm, wrist joint, palm, four jointed fingers;
+       - human hand from the right: sleeve with cuff, back of the hand and knuckles, thumb lying over
+         the machine hand, fingertips wrapping underneath it.
+       Small labels name the two sides. Decorative only (aria-hidden). */ -}}
+{{- $pts := dict
+  "a1" (slice 0 122) "a2" (slice 0 188) "a3" (slice 55 121) "a4" (slice 55 189) "a5" (slice 110 120) "a6" (slice 110 190) "a7" (slice 160 124) "a8" (slice 160 186)
+  "j1" (slice 174 130) "j2" (slice 174 180)
+  "p1" (slice 184 112) "p2" (slice 250 100) "p3" (slice 305 104) "p4" (slice 305 204) "p5" (slice 245 214) "p6" (slice 184 198) "p7" (slice 245 158)
+  "f00" (slice 305 104) "f01" (slice 355 106) "f02" (slice 402 109) "f03" (slice 436 114)
+  "f10" (slice 305 130) "f11" (slice 355 131) "f12" (slice 404 133) "f13" (slice 442 136)
+  "f20" (slice 305 156) "f21" (slice 355 157) "f22" (slice 404 158) "f23" (slice 442 160)
+  "f30" (slice 305 182) "f31" (slice 353 182) "f32" (slice 400 182) "f33" (slice 434 183)
+  "f40" (slice 305 204) "f41" (slice 350 206) "f42" (slice 392 205)
+  "s1" (slice 620 58) "s2" (slice 620 152) "s3" (slice 566 56) "s4" (slice 566 154) "s5" (slice 552 60) "s6" (slice 552 150)
+  "h1" (slice 502 64) "h2" (slice 452 74) "k1" (slice 412 88) "h3" (slice 514 152) "h4" (slice 490 178) "h5" (slice 470 204)
+  "t1" (slice 378 92) "t2" (slice 330 96) "t3" (slice 284 104) "t4" (slice 258 115) "t5" (slice 272 125) "t6" (slice 320 122) "t7" (slice 368 118) "n1" (slice 268 106)
+  "b1" (slice 452 206) "b2" (slice 424 211) "b3" (slice 396 213) "b4" (slice 366 212)
+  "u1" (slice 458 226) "u2" (slice 422 232) "u3" (slice 386 234) "u4" (slice 350 229)
+-}}
+{{- $machine := slice
+  "a1 a3" "a3 a5" "a5 a7" "a2 a4" "a4 a6" "a6 a8" "a1 a2" "a3 a4" "a5 a6" "a7 a8"
+  "a7 j1" "a8 j2" "j1 j2" "j1 p1" "j2 p6"
+  "p1 p2" "p2 p3" "p3 p4" "p4 p5" "p5 p6" "p6 p1" "p7 p1" "p7 p3" "p7 p4" "p7 p6"
+  "f00 f01" "f01 f02" "f02 f03" "f10 f11" "f11 f12" "f12 f13" "f20 f21" "f21 f22" "f22 f23" "f30 f31" "f31 f32" "f32 f33" "f40 f41" "f41 f42"
+  "f00 f10" "f10 f20" "f20 f30" "f30 f40" "f01 f11" "f11 f21" "f21 f31" "f31 f41" "f02 f12" "f12 f22" "f22 f32" "f32 f42" "f03 f13" "f13 f23" "f23 f33"
+-}}
+{{- $human := slice
+  "s1 s3" "s2 s4" "s3 s4" "s5 s6" "s3 s5" "s4 s6"
+  "s5 h1" "h1 h2" "h2 k1" "k1 t1" "t1 t2" "t2 t3" "t3 t4" "t4 t5" "t5 t6" "t6 t7" "t7 k1" "t3 n1" "n1 t4"
+  "s6 h3" "h3 h4" "h4 h5" "h1 h3" "h2 h4" "k1 h5"
+  "h5 b1" "b1 b2" "b2 b3" "b3 b4" "b1 u1" "b2 u2" "b3 u3" "b4 u4" "u1 u2" "u2 u3" "u3 u4"
+-}}
+{{- $glow := slice "t4" "k1" "p7" "u2" "a5" "f03" -}}
+<svg class="hs" viewBox="-8 40 640 212" aria-hidden="true" focusable="false">
+  <g class="hs-lines">
+    {{- range $i, $e := $machine }}{{ $ab := split $e " " }}{{ $a := index $pts (index $ab 0) }}{{ $b := index $pts (index $ab 1) }}
+    <line class="hs-m" style="--i: {{ $i }}" x1="{{ index $a 0 }}" y1="{{ index $a 1 }}" x2="{{ index $b 0 }}" y2="{{ index $b 1 }}"/>
+    {{- end }}
+    {{- range $i, $e := $human }}{{ $ab := split $e " " }}{{ $a := index $pts (index $ab 0) }}{{ $b := index $pts (index $ab 1) }}
+    <line class="hs-h" style="--i: {{ $i }}" x1="{{ index $a 0 }}" y1="{{ index $a 1 }}" x2="{{ index $b 0 }}" y2="{{ index $b 1 }}"/>
+    {{- end }}
+  </g>
+  <g class="hs-dots">
+    {{- range $k, $p := $pts }}
+    {{- $isH := or (hasPrefix $k "s") (hasPrefix $k "h") (hasPrefix $k "k") (hasPrefix $k "t") (hasPrefix $k "n") (hasPrefix $k "b") (hasPrefix $k "u") }}
+    <circle class="hs-dot{{ if in $glow $k }} is-glow{{ end }}{{ if $isH }} is-h{{ end }}" cx="{{ index $p 0 }}" cy="{{ index $p 1 }}" r="{{ if in $glow $k }}3.4{{ else }}2.1{{ end }}"/>
+    {{- end }}
+  </g>
+  <text class="hs-label" x="80" y="214" text-anchor="middle">{{ T "hs_ai" | safeHTML }}</text>
+  <text class="hs-label is-h" x="593" y="176" text-anchor="middle">{{ T "hs_human" | safeHTML }}</text>
+</svg>

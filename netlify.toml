@@ -1,0 +1,28 @@
+[build]
+publish = "public"
+command = "hugo --gc --minify"
+
+[build.environment]
+HUGO_VERSION = "0.170.0"
+HUGO_ENV = "production"
+TZ = "Europe/Madrid"
+
+[context.deploy-preview]
+command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
+
+[context.branch-deploy]
+command = "hugo --gc --minify -b $DEPLOY_PRIME_URL"
+
+[[headers]]
+for = "/*"
+  [headers.values]
+  X-Content-Type-Options = "nosniff"
+  X-Frame-Options = "SAMEORIGIN"
+  Referrer-Policy = "strict-origin-when-cross-origin"
+  Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
+# Spanish moved from /es/ to the site root; keep old links working.
+[[redirects]]
+from = "/es/*"
+to = "/:splat"
+status = 301

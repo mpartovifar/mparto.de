@@ -1,0 +1,16 @@
+{{- /* Language picker: lists every translation of the current page. Works without JavaScript. */ -}}
+<details class="lang">
+  <summary class="lang-toggle" aria-label="{{ T "ui_language" | htmlUnescape }} · Language" title="{{ T "ui_language" | htmlUnescape }} · Language">{{ upper .Language.Lang }}</summary>
+  <ul class="lang-menu">
+    {{- range .AllTranslations }}
+    <li><a href="{{ .RelPermalink }}" hreflang="{{ .Language.Lang }}" lang="{{ .Language.Lang }}"{{ if eq .Language.Lang $.Language.Lang }} aria-current="page"{{ end }}>{{ .Language.Label }}</a></li>
+    {{- end }}
+  </ul>
+</details>
+<script>
+  (function () {
+    var d = document.querySelector("details.lang");
+    document.addEventListener("click", function (e) { if (d.open && !d.contains(e.target)) d.open = false; });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && d.open) { d.open = false; d.querySelector("summary").focus(); } });
+  })();
+</script>

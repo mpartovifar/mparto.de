@@ -1,0 +1,44 @@
+baseURL = "https://mparto.de/"
+title = "Michael Arman Partovifar"
+locale = "es"
+defaultContentLanguage = "es"
+defaultContentLanguageInSubdir = false
+
+enableRobotsTXT = true
+disableKinds = ["taxonomy", "term", "section", "RSS"]
+
+[params]
+email = "michael.arman.p94@gmail.com"
+whatsapp = "https://wa.me/qr/EZI2STRDQSYNC1"
+linkedin = "https://www.linkedin.com/in/michael-arman-p/"
+booking = "https://calendar.app.google/TQ3FgkdYkXHNwkHQA"
+x = "https://x.com/mikepartovifar"
+linktree = "https://linktr.ee/michaelarmanpartovifar"
+
+# Spanish at the site root, other languages at /en/, /de/, /fr/, /ru/, /ar/.
+# All page text lives in i18n/<lang>.yaml.
+[languages.en]
+locale = "en"
+label = "English"
+weight = 2
+[languages.es]
+locale = "es"
+label = "Español"
+weight = 1
+[languages.de]
+locale = "de"
+label = "Deutsch"
+weight = 3
+[languages.fr]
+locale = "fr"
+label = "Français"
+weight = 4
+[languages.ru]
+locale = "ru"
+label = "Русский"
+weight = 5
+[languages.ar]
+locale = "ar"
+label = "العربية"
+direction = "rtl"
+weight = 6
